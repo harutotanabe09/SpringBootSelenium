@@ -1,0 +1,45 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.3.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+    id 'com.diffplug.gradle.spotless' version '4.5.1'
+}
+
+group = 'co.jp.enjapan'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+// Code Formatter
+spotless {
+    java {
+        googleJavaFormat('1.8')
+        trimTrailingWhitespace()
+        endWithNewline()
+        removeUnusedImports()
+    }
+}
+
+dependencies {
+    // Spring Framework
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    // Selenium
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+}
+
+test {
+    useJUnitPlatform()
+}
